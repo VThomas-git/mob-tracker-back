@@ -14,6 +14,27 @@ public class MobilityController {
     @Autowired
     private MobilityRepository mobilityRepository;
 
+
+    private Mobility setMobilityFields(
+            Mobility mob,
+            String studentName,
+            Long prom,
+            String city,
+            String destinationCountry,
+            String beginDate,
+            String endDate
+
+    ) {
+        mob.setStudentName(studentName);
+        mob.setProm(prom);
+        mob.setCity(city);
+        mob.setDestinationCountry(destinationCountry);
+        mob.setBeginDate(Date.valueOf(beginDate));
+        mob.setEndDate(Date.valueOf(endDate));
+
+        return mob;
+    }
+
     @PostMapping(path = "/add")
     public @ResponseBody
     String addNewMobility(
@@ -24,15 +45,10 @@ public class MobilityController {
             @RequestParam String beginDate,
             @RequestParam String endDate) {
 
-        Mobility mob = new Mobility();
-        mob.setStudentName(studentName);
-        mob.setProm(prom);
-        mob.setCity(city);
-        mob.setDestinationCountry(destinationCountry);
-        mob.setBeginDate(Date.valueOf(beginDate));
-        mob.setEndDate(Date.valueOf(endDate));
+        Mobility mob = setMobilityFields(new Mobility(), studentName, prom, city, destinationCountry, beginDate, endDate);
 
         mobilityRepository.save(mob);
+
         return "Saved";
     }
 
@@ -41,5 +57,21 @@ public class MobilityController {
     Iterable<Mobility> getAllMobility() {
         return mobilityRepository.findAll();
     }
+
+    @PatchMapping(path = "/update/{id}")
+    public void updateMobility(
+            @PathVariable(value = "id") final Integer id,
+            @RequestParam String studentName,
+            @RequestParam Long prom,
+            @RequestParam String city,
+            @RequestParam String destinationCountry,
+            @RequestParam String beginDate,
+            @RequestParam String endDate) {
+
+        Mobility mob = setMobilityFields(mobilityRepository.findById(id).orElseThrow(), studentName, prom, city, destinationCountry, beginDate, endDate);
+        mobilityRepository.save(mob);
+
+    }
+
 
 }
