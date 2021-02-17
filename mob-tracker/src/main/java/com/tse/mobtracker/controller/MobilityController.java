@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 @Controller
 @RequestMapping(path = "/mobilities")
@@ -24,7 +25,7 @@ public class MobilityController {
             String beginDate,
             String endDate
 
-    ) {
+            ) {
         mob.setStudentName(studentName);
         mob.setProm(prom);
         mob.setCity(city);
@@ -46,6 +47,7 @@ public class MobilityController {
             @RequestParam String endDate) {
 
         Mobility mob = setMobilityFields(new Mobility(), studentName, prom, city, destinationCountry, beginDate, endDate);
+        mob.setSubmitDate(Date.valueOf(LocalDate.now()));
 
         mobilityRepository.save(mob);
 
@@ -77,6 +79,7 @@ public class MobilityController {
             @RequestParam String endDate) {
 
         Mobility mob = setMobilityFields(mobilityRepository.findById(id).orElseThrow(), studentName, prom, city, destinationCountry, beginDate, endDate);
+        mob.setSubmitDate(Date.valueOf(LocalDate.now()));
         mobilityRepository.save(mob);
 
     }
