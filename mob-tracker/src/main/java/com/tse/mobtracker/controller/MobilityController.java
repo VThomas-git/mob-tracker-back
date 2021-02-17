@@ -35,7 +35,7 @@ public class MobilityController {
         return mob;
     }
 
-    @PostMapping(path = "/add")
+    @PostMapping(path = "/")
     public @ResponseBody
     String addNewMobility(
             @RequestParam String studentName,
@@ -52,13 +52,21 @@ public class MobilityController {
         return "Saved";
     }
 
-    @GetMapping(path = "/all")
+    @GetMapping(path = "/")
     public @ResponseBody
     Iterable<Mobility> getAllMobility() {
         return mobilityRepository.findAll();
     }
 
-    @PatchMapping(path = "/update/{id}")
+    @GetMapping(path = "/{id}")
+    public @ResponseBody
+    Mobility getMobility(
+            @PathVariable(value = "id") final Integer id
+    ) {
+        return mobilityRepository.findById(id).orElseThrow();
+    }
+
+    @PatchMapping(path = "/{id}")
     public void updateMobility(
             @PathVariable(value = "id") final Integer id,
             @RequestParam String studentName,
