@@ -18,4 +18,5 @@ public class Mobility {
     private String destinationCountry;
     private Date beginDate;
     private Date endDate;
+    private Date submitDate;
 }
