@@ -66,7 +66,7 @@ public class MobilityController {
         return mobilityRepository.findById(id).orElseThrow();
     }
 
-    @PatchMapping(path = "/update/{id}")
+    @PatchMapping(path = "/{id}")
     public void updateMobility(
             @PathVariable(value = "id") final Integer id,
             @RequestParam String studentName,
