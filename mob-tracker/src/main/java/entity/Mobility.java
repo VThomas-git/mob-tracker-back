@@ -1,10 +1,13 @@
-package Entity;
+package entity;
+
+import lombok.Data;
 
 import javax.persistence.*;
 import java.sql.Date;
 import java.time.Year;
 
 @Entity
+@Data
 public class Mobility {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
