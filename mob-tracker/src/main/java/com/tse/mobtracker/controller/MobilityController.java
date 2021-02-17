@@ -58,6 +58,14 @@ public class MobilityController {
         return mobilityRepository.findAll();
     }
 
+    @GetMapping(path = "/{id}")
+    public @ResponseBody
+    Mobility getMobility(
+            @PathVariable(value = "id") final Integer id
+    ) {
+        return mobilityRepository.findById(id).orElseThrow();
+    }
+
     @PatchMapping(path = "/update/{id}")
     public void updateMobility(
             @PathVariable(value = "id") final Integer id,
