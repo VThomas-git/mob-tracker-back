@@ -4,7 +4,6 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.time.Year;
 
 @Entity
 @Data
@@ -14,7 +13,7 @@ public class Mobility {
     private Integer id;
 
     private String studentName;
-    private Year prom;
+    private Long prom;
     private String city;
     private String destinationCountry;
     private Date beginDate;
