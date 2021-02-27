@@ -89,7 +89,11 @@ public class MobilityController {
     public void deleteMobility(
             @PathVariable(value = "id") final Integer id
     ) {
-        mobilityRepository.deleteById(id);
+        try {
+            mobilityRepository.deleteById(id);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
 }
