@@ -17,26 +17,6 @@ public class MobilityController {
     @Autowired
     private MobilityRepository mobilityRepository;
 
-
-    private Mobility setMobilityFields(
-            Mobility mob,
-            String studentName,
-            Long prom,
-            String city,
-            String destinationCountry,
-            String beginDate,
-            String endDate
-    ) {
-        mob.setStudentName(studentName);
-        mob.setProm(prom);
-        mob.setCity(city);
-        mob.setDestinationCountry(destinationCountry);
-        mob.setBeginDate(Date.valueOf(beginDate));
-        mob.setEndDate(Date.valueOf(endDate));
-
-        return mob;
-    }
-
     @PostMapping(path = "/")
     public @ResponseBody
     String addNewMobility(
@@ -63,20 +43,22 @@ public class MobilityController {
         return mobilityRepository.findById(id).orElseThrow();
     }
 
-    @PatchMapping(path = "/{id}")
-    public void updateMobility(
-            @PathVariable(value = "id") final Integer id,
-            @RequestParam String studentName,
-            @RequestParam Long prom,
-            @RequestParam String city,
-            @RequestParam String destinationCountry,
-            @RequestParam String beginDate,
-            @RequestParam String endDate) {
-
-        Mobility mob = setMobilityFields(mobilityRepository.findById(id).orElseThrow(), studentName, prom, city, destinationCountry, beginDate, endDate);
-        mob.setSubmitDate(Date.valueOf(LocalDate.now()));
-        mobilityRepository.save(mob);
-
+    @PutMapping(path = "/{id}")
+    public @ResponseBody
+    String updateMobility(
+            @RequestBody Mobility mobility,
+            @PathVariable Integer id
+    ) {
+        mobilityRepository.findById(id)
+                .map(m -> {
+                    m.setStudentName(mobility.getStudentName());
+                    return m;
+                })
+                .orElseGet(() -> {
+                    mobility.setSubmitDate(Date.valueOf(LocalDate.now()));
+                    return mobilityRepository.save(mobility);
+                });
+        return ResponseEntity.ok().toString();
     }
 
     @DeleteMapping(path = "/{id}")
