@@ -52,7 +52,13 @@ public class MobilityController {
         mobilityRepository.findById(id)
                 .map(m -> {
                     m.setStudentName(mobility.getStudentName());
-                    return m;
+                    m.setProm(mobility.getProm());
+                    m.setDestinationCountry(mobility.getDestinationCountry());
+                    m.setCity(mobility.getCity());
+                    m.setBeginDate(mobility.getBeginDate());
+                    m.setEndDate(mobility.getEndDate());
+                    m.setSubmitDate(Date.valueOf(LocalDate.now()));
+                    return mobilityRepository.save(m);
                 })
                 .orElseGet(() -> {
                     mobility.setSubmitDate(Date.valueOf(LocalDate.now()));
