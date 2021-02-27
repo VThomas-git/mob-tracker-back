@@ -3,6 +3,7 @@ package com.tse.mobtracker.controller;
 import com.tse.mobtracker.entity.Mobility;
 import com.tse.mobtracker.repository.MobilityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
@@ -25,7 +26,6 @@ public class MobilityController {
             String destinationCountry,
             String beginDate,
             String endDate
-
     ) {
         mob.setStudentName(studentName);
         mob.setProm(prom);
@@ -40,17 +40,11 @@ public class MobilityController {
     @PostMapping(path = "/")
     public @ResponseBody
     String addNewMobility(
-            @RequestParam String studentName,
-            @RequestParam Long prom,
-            @RequestParam String city,
-            @RequestParam String destinationCountry,
-            @RequestParam String beginDate,
-            @RequestParam String endDate) {
+            @RequestBody Mobility mobility) {
 
-        Mobility mob = setMobilityFields(new Mobility(), studentName, prom, city, destinationCountry, beginDate, endDate);
-        mob.setSubmitDate(Date.valueOf(LocalDate.now()));
+        mobility.setSubmitDate(Date.valueOf(LocalDate.now()));
 
-        mobilityRepository.save(mob);
+        mobilityRepository.save(mobility);
 
         return "Saved";
     }
