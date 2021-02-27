@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @Controller
 @RequestMapping(path = "/mobilities")
 public class MobilityController {
+
     @Autowired
     private MobilityRepository mobilityRepository;
 
@@ -25,7 +26,7 @@ public class MobilityController {
             String beginDate,
             String endDate
 
-            ) {
+    ) {
         mob.setStudentName(studentName);
         mob.setProm(prom);
         mob.setCity(city);
@@ -84,5 +85,15 @@ public class MobilityController {
 
     }
 
+    @DeleteMapping(path = "/{id}")
+    public void deleteMobility(
+            @PathVariable(value = "id") final Integer id
+    ) {
+        try {
+            mobilityRepository.deleteById(id);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
 
 }
